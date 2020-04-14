@@ -3,17 +3,16 @@ from lru import lru
 class lruTest():
     
     def __init__(self):
-        self.lru = lru()
+        self.LRU = lru()
 
     def testPut(self, item):
-        return self.lru.put(item)
+        return self.LRU.put(item)
 
     def testGet(self, item):
-        return self.lru.get(item)
+        return self.LRU.get(item)
 
     def testGet_cache(self):
-        return self.lru.get_cache()
-
+        return self.LRU.get_cache()
 
 
 def main():
