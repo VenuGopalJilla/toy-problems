@@ -55,11 +55,12 @@ def register():
         age = request.form.get('age')
         dob = request.form.get('dob')
         gender = request.form.get('gender')
+        password = request.form.get('password')
         session["data"].append(name)
         session["data"].append(age)
         session["data"].append(dob)
         session["data"].append(gender)
-        user = User(username = name, age = age, gender = gender)
+        user = User(username = name, age = age, gender = gender, password = password)
         try :
             db.session.add(user)
             message = "You are successfully registered."
