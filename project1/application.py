@@ -55,8 +55,12 @@ def register():
         session["data"].append(dob)
         session["data"].append(gender)
         user = User(username = name, age = age, gender = gender)
-        db.session.add(user)
+        try :
+            db.session.add(user)
+            message = "You are successfully registered."
+        except:
+            return render_template("error.html", message = "Error in registering you. Please try again.")
         db.session.commit()
-        return render_template("register.html", notesdata = session["data"])
+        return render_template("register.html", notesdata = session["data"], message = message)
 
 
