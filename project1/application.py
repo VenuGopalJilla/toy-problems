@@ -40,6 +40,11 @@ db.create_all()
 def index():
     return render_template("index.html")
 
+@app.route("/admin")
+def admin():
+    users = User.query.order_by("timestamp").all()
+    return render_template("admin.html", users = users)
+
 @app.route("/register", methods = ['GET','POST'])
 def register():
     if request.method == "GET":
