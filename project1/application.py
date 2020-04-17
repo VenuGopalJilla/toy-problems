@@ -40,6 +40,11 @@ db.create_all()
 def index():
     return render_template("index.html")
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return render_template("register.html")
+
 @app.route("/admin")
 def admin():
     users = User.query.order_by("timestamp").all()
@@ -60,13 +65,41 @@ def register():
         session["data"].append(age)
         session["data"].append(dob)
         session["data"].append(gender)
-        user = User(username = name, age = age, gender = gender, password = password)
-        try :
+        if (User.query.get(name) == None):
+            user = User(username = name, age = age, gender = gender, password = password)
             db.session.add(user)
             message = "You are successfully registered."
-        except:
-            return render_template("error.html", message = "Error in registering you. Please try again.")
-        db.session.commit()
-        return render_template("register.html", notesdata = session["data"], message = message)
+            db.session.commit()
+            return render_template("register.html", notesdata = session["data"], message = message)
+        else :
+            return render_template("register.html", message = "Username already exists. Please login.")
+
+            
+        
+
+
+@app.route("/auth", methods = ['GET', 'POST'])
+def auth():
+    if request.method == "POST":
+        session["data1"] = []
+        name1 = request.form.get('username')
+        print(name1)
+        password1 = request.form.get('password')
+        user1 = User.query.get(name1)
+        age1 = user1.age
+        gender1 = user1.gender
+        session["data1"].append(name1)
+        session["data1"].append(age1)
+        session["data1"].append(gender1)
+       
+        if ((name1 == user1.username) and (password1 == user1.password)) :
+            return render_template("userhome.html", notesdata1 = session["data1"])
+        else:
+            msg = "Invalid Credentials."
+            return render_template("register.html", message = msg)
+    else:
+        msg = "Please login."
+        return render_template("register.html", message = msg)
+
 
 

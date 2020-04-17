@@ -5,7 +5,7 @@
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     </head>
     <body>
-        <h1 style = "text-align: center;">Registration Page</h1>
+        <h1 style = "text-align: center;">Registration/Login Page</h1>
         
         <div class="row" style = "margin : 0 auto;">
             <div class="col-md-6 col-sm-12 col-lg-6 col-md-offset-3">
@@ -47,17 +47,15 @@
                                 <textarea name = "address" class="form-control" rows="3"></textarea>
                             </div>
                             
-                            <button id="submit" type="submit" value="submit" class="btn btn-primary center">Register</button>
-                    
+                            <button id="submit" type="submit" formaction = "{{ url_for('register') }}" value="submit" class="btn btn-primary center">Register</button>
+                            <button id="submit1" formaction = "{{ url_for('auth') }}" value="submit" class="btn btn-primary center">Login</button>
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
         <p>
-            {{ message }}
-            Your Details are :
+            <h3 style = "text-align: center;">{{ message }}</h3>
             <ul>    
                 {% for d in notesdata : %}
                 <li>
