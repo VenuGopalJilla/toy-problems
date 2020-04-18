@@ -18,3 +18,5 @@ class User(db.Model):
         self.password = password
         self.timestamp = datetime.now()
 
+
+

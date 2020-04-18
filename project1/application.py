@@ -83,7 +83,7 @@ def auth():
     if request.method == "POST":
         session["data1"] = []
         name1 = request.form.get('username')
-        print(name1)
+        # print(name1)
         password1 = request.form.get('password')
         user1 = User.query.get(name1)
         age1 = user1.age
