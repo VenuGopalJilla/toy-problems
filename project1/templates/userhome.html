@@ -13,6 +13,12 @@
                 {% endfor %}
             </ul>
         </p>
+        <p>Write a Review : </p>
+
+        <form name="myform12" action = "{{ url_for('review') }}" method = "get">
+            <button id="submit2" type="submit" value="submit" class="btn btn-primary center">Let's review a book</button>
+        </form>
+
         <form name="myform1" action = "{{ url_for('logout') }}" method = "get">
             <button id="submit1" type="submit" value="submit" class="btn btn-primary center">Logout</button>
         </form>

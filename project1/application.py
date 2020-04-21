@@ -42,6 +42,42 @@ db.create_all()
 def index():
     return render_template("index.html")
 
+@app.route("/profile")
+def profile():
+    return render_template("userhome.html", notesdata1 = session["data1"])
+
+@app.route("/review", methods = ['GET', 'POST'])
+def review():
+    if request.method == "GET":
+        return render_template("review.html")
+    else:
+        name = request.form.get('username')
+        isbn = request.form.get('isbn')
+        title = request.form.get('title')
+        rating = request.form.get('rating')
+        description = request.form.get('description')
+        reviews = Review.query.filter_by(username = name).all()
+        for review2 in reviews:
+            print(review2.isbn)
+        
+        if (Review.query.filter_by(username = name, isbn = isbn).first() == None) :
+            new_review = Review(username = name, isbn = isbn, title = title, rating = rating, description = description)
+            db.session.add(new_review)
+            db.session.commit()
+            message = "Review added successfully"
+            return render_template("review.html", message = message)
+        else:
+            for review1 in reviews:
+                if (review1.isbn == isbn):
+                    message = "You reviewed this book already. Review another book."
+                    return render_template("review.html", message = message)
+            new_review = Review(username = name, isbn = isbn, title = title, rating = rating, description = description)
+            db.session.add(new_review)
+            db.session.commit()
+            message = "Review added successfully"
+            return render_template("review.html", message = message)
+
+
 @app.route("/logout")
 def logout():
     session.clear()
