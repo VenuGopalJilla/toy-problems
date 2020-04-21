@@ -57,8 +57,8 @@ def review():
         rating = request.form.get('rating')
         description = request.form.get('description')
         reviews = Review.query.filter_by(username = name).all()
-        for review2 in reviews:
-            print(review2.isbn)
+        # for review2 in reviews:
+        #     print(review2.isbn)
         
         if (Review.query.filter_by(username = name, isbn = isbn).first() == None) :
             new_review = Review(username = name, isbn = isbn, title = title, rating = rating, description = description)
@@ -93,17 +93,17 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     else :
-        session["data"] = []
+        data = []
         name = request.form.get('username')
         age = request.form.get('age')
         dob = request.form.get('dob')
         gender = request.form.get('gender')
         password_hashed = sha256_crypt.encrypt(request.form.get('password'))
         # print(password_hashed)
-        session["data"].append(name)
-        session["data"].append(age)
-        session["data"].append(dob)
-        session["data"].append(gender)
+        data.append(name)
+        data.append(age)
+        data.append(dob)
+        data.append(gender)
         if (User.query.get(name) == None):
             user = User(username = name, age = age, gender = gender, password = password_hashed)
             db.session.add(user)
