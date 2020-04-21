@@ -57,23 +57,23 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     else :
-        session["data"] = []
+        data = []
         name = request.form.get('username')
         age = request.form.get('age')
         dob = request.form.get('dob')
         gender = request.form.get('gender')
         password_hashed = sha256_crypt.encrypt(request.form.get('password'))
         # print(password_hashed)
-        session["data"].append(name)
-        session["data"].append(age)
-        session["data"].append(dob)
-        session["data"].append(gender)
+        data.append(name)
+        data.append(age)
+        data.append(dob)
+        data.append(gender)
         if (User.query.get(name) == None):
             user = User(username = name, age = age, gender = gender, password = password_hashed)
             db.session.add(user)
             message = "You are successfully registered."
             db.session.commit()
-            return render_template("register.html", notesdata = session["data"], message = message)
+            return render_template("register.html", notesdata = data, message = message)
         else :
             return render_template("register.html", message = "Username already exists. Please login.")
 
