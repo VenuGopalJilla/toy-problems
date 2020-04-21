@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <p>
+            <ul>    
+                {% for d in notesdata1 : %}
+                <li>
+                    {{ d }}
+                </li>
+                {% endfor %}
+            </ul>
+        </p>
+        <form name="myform1" action = "{{ url_for('logout') }}" method = "get">
+            <button id="submit1" type="submit" value="submit" class="btn btn-primary center">Logout</button>
+        </form>
+    </body>
+</html>

@@ -1,4 +1,5 @@
 import os
+from passlib.hash import sha256_crypt
 
 from flask import Flask, session
 from flask_session import Session
@@ -36,9 +37,15 @@ db.init_app(app)
 
 db.create_all()
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return render_template("register.html")
 
 @app.route("/admin")
 def admin():
@@ -55,18 +62,53 @@ def register():
         age = request.form.get('age')
         dob = request.form.get('dob')
         gender = request.form.get('gender')
-        password = request.form.get('password')
+        password_hashed = sha256_crypt.encrypt(request.form.get('password'))
+        # print(password_hashed)
         session["data"].append(name)
         session["data"].append(age)
         session["data"].append(dob)
         session["data"].append(gender)
-        user = User(username = name, age = age, gender = gender, password = password)
-        try :
+        if (User.query.get(name) == None):
+            user = User(username = name, age = age, gender = gender, password = password_hashed)
             db.session.add(user)
             message = "You are successfully registered."
-        except:
-            return render_template("error.html", message = "Error in registering you. Please try again.")
-        db.session.commit()
-        return render_template("register.html", notesdata = session["data"], message = message)
+            db.session.commit()
+            return render_template("register.html", notesdata = session["data"], message = message)
+        else :
+            return render_template("register.html", message = "Username already exists. Please login.")
+
+            
+        
+
+
+@app.route("/auth", methods = ['GET', 'POST'])
+def auth():
+    if request.method == "POST":
+        # salt = bcrypt.gensalt()
+        session["data1"] = []
+        name1 = request.form.get('username')
+        # session["username"] = name1
+        # print(name1)
+        password1 = request.form.get('password')
+        # print(password1)
+        user1 = User.query.get(name1)
+        age1 = user1.age
+        gender1 = user1.gender
+        session["data1"].append(name1)
+        session["data1"].append(age1)
+        session["data1"].append(gender1)
+        # print(user1.username)
+        # print(user1.password)
+        # print(sha256_crypt.encrypt(password1))
+        # print(sha256_crypt.verify(password1, sha256_crypt.encrypt(password1)))
+        if ((name1 == user1.username) and sha256_crypt.verify(password1, sha256_crypt.encrypt(password1))) :
+            return render_template("userhome.html", notesdata1 = session["data1"])
+        else:
+            msg = "Invalid Credentials."
+            return render_template("register.html", message = msg)
+    else:
+        msg = "Please login."
+        return render_template("register.html", message = msg)
+
 
 
