@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>My Webpage</title>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     </head>
     <body>
         <p>
@@ -13,12 +14,15 @@
                 {% endfor %}
             </ul>
         </p>
+        <br>
+        <br>
         <p>Write a Review : </p>
 
         <form name="myform12" action = "{{ url_for('review') }}" method = "get">
             <button id="submit2" type="submit" value="submit" class="btn btn-primary center">Let's review a book</button>
         </form>
-
+        <br>
+        <br>
         <form name="myform1" action = "{{ url_for('logout') }}" method = "get">
             <button id="submit1" type="submit" value="submit" class="btn btn-primary center">Logout</button>
         </form>
