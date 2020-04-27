@@ -23,8 +23,9 @@ function countChar(str, str1) {
 }
 
 var strin = "BBBBBB"
+var strin1 = "B"
 const num = countBs(strin)
-const num1 = countChar(strin, "B")
+const num1 = countChar(strin, strin1)
 
 console.log("Count of B's in " + strin + " is : " + num)
 console.log("Count of B's in " + strin + " is : " + num)
