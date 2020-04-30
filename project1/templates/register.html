@@ -3,6 +3,71 @@
     <head>
         <title>My Web Page...!!</title>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script>
+            function funcValidate() {
+                console.log("entered")
+
+                var username = document.querySelector('#username').value;
+                var passd = document.querySelector('#password').value;
+                var errorMessage = "";
+
+
+                if (username.length === 0) {
+                    document.querySelector('#error').innerHTML = "Please enter a username...!!!";
+                    return false;
+                }
+
+                if (passd.length === 0){
+                    document.querySelector('#error').innerHTML = "Please enter a password...!!!";
+                    return false;
+                }
+
+                
+                
+                if ((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(username)) {
+
+                } else {
+                    document.querySelector('#error').innerHTML = "Please enter a valid email as a username";
+                    return false;
+                }
+
+
+                if (document.querySelector('#password').value.length < 6 ) {
+                    document.querySelector('#error').innerHTML = "Password should be atleast 6 characters.";
+                    return false;
+                }
+
+                
+
+                const pass = document.querySelector('#password').value;
+
+                if (!/[a-z]/.test(pass)) {
+                    errorMessage += "Password should contain atleast one lowercase alphabet." + "\n"; 
+                }
+
+                if (!/[A-Z]/.test(pass)) {
+                    errorMessage += "Password should contain atleast one uppercase alphabet." + "\n"; 
+                }
+                
+                if (!/[0-9]/.test(pass)) {
+                    errorMessage += "Password should contain atleast one number." + "\n"; 
+                }
+
+                if (!/[!@#\$%\^\&*\)\(+=._-]/.test(pass)) {
+                    errorMessage += "Password should contain atleast one symbol." + "\n"; 
+                }
+
+
+                if (errorMessage === ""){
+                    return true;
+                }
+
+                document.querySelector('#error').innerHTML = errorMessage;
+
+                return false;
+
+            }
+        </script>
     </head>
     <body>
         <h1 style = "text-align: center;">Registration/Login Page</h1>
@@ -13,7 +78,7 @@
                     <div class="panel-heading">Enter Your Details Here
                     </div>
                     <div class="panel-body">
-                        <form name="myform" action = "{{ url_for('register') }}" method = "post">
+                        <form name="myform" method = "post">
                             <div class="form-group">
                                 <label for="username">Username *</label>
                                 <input id="username" name="username" class="form-control" type="text" data-validation="email" placeholder="Enter your name">
@@ -21,7 +86,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Password *</label>
-                                <input name = "password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <input name = "password" type="password" class="form-control" id="password" placeholder="Password">
                             </div>
                             <div class="form-group">
                                 <label for="age">Age</label>
@@ -47,7 +112,7 @@
                                 <textarea name = "address" class="form-control" rows="3"></textarea>
                             </div>
                             
-                            <button id="submit" type="submit" formaction = "{{ url_for('register') }}" value="submit" class="btn btn-primary center">Register</button>
+                            <button id="submit" type="submit"  onclick = "return funcValidate()" formaction = "{{ url_for('register') }}" value="submit" class="btn btn-primary center">Register</button>
                             <button id="submit1" formaction = "{{ url_for('auth') }}" value="submit" class="btn btn-primary center">Login</button>
                         </form>
                     </div>
@@ -64,6 +129,8 @@
                 {% endfor %}
             </ul>
         </p>
-
+        <p>
+            <h4 id = "error" style = "text-align: center;"></h4>
+        </p>
     </body>
 </html>
