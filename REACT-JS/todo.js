@@ -80,7 +80,7 @@ class TodoApp extends React.Component {
             <span>Task to be done : </span>
             <input type = "text"  id = "inputTask" />
             <span> Due Date : </span>
-            <input type = "text"  id = "dueDate" />
+            <input type = "date"  id = "dueDate" />
             <button onClick = {() => this.addTodo(document.getElementById('inputTask').value 
             + "  |--|  " + document.getElementById('dueDate').value)}>Add Task</button>
         </div>
