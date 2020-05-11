@@ -77,8 +77,12 @@ class TodoApp extends React.Component {
                     }
             </ul>
             {/* <h3 id = "tasks">First Task , {new Date().toLocaleTimeString()}</h3> */}
+            <span>Task to be done : </span>
             <input type = "text"  id = "inputTask" />
-            <button onClick = {() => this.addTodo(document.getElementById('inputTask').value)}>Add Task</button>
+            <span> Due Date : </span>
+            <input type = "text"  id = "dueDate" />
+            <button onClick = {() => this.addTodo(document.getElementById('inputTask').value 
+            + "  |--|  " + document.getElementById('dueDate').value)}>Add Task</button>
         </div>
         );
     }
