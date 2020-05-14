@@ -1,19 +1,23 @@
+import {View, Text, Button, ScrollView, TextInput} from 'react-native';
+import React from 'react';
 
 
 let id = 0;
 
 const Todo = props => (
-    <li>
-        <input type = "checkbox" onChange = {props.onChecked} checked = {props.todo.checked}/>
-        <span>{props.todo.text}</span>
-        <button onClick = {props.onDelete} >delete</button>
-    </li>
+    <View>
+        {/* <input type = "checkbox" onChange = {props.onChecked} checked = {props.todo.checked}/> */}
+        <Text>{props.todo.text}</Text>
+        <Button onPress = {props.onDelete} title = "delete" />
+    </View>
 );
 
-class TodoApp extends React.Component {
+export default class TodoApp extends React.Component {
     constructor() {
         super();
         this.state = {
+            inputTask: '',
+            dueDate: '',
             todos: [],
         };
     }
@@ -51,23 +55,23 @@ class TodoApp extends React.Component {
     }
 
     addTodo(text) {
-        var text = text;
-        text += "  :  " + new Date().toLocaleTimeString();
+        // var text = text;
+        var text1 = text +  "  :  " + new Date().toLocaleTimeString();
         this.setState({
             todos : [...this.state.todos, 
-                {id: id++, text: text, checked: false}],
+                {id: id++, text: text1, checked: false}],
         })
     }
 
     render() {
         return (
-        <div>
-            <h1>Todo Tasks : </h1>
-            <div>Total Tasks : {this.state.todos.length}</div>
-            <div>Tasks unChecked count: {
+        <View>
+            <Text>Todo Tasks : </Text>
+            <Text>Total Tasks : {this.state.todos.length}</Text>
+            {/* <Text>Tasks unChecked count: {
                 this.state.todos.filter(todo => !todo.checked).length
-                }</div>
-            <ul>
+                }</Text> */}
+            <ScrollView>
                 {this.state.todos.map(
                     todo => <Todo
                     onChecked = {() => this.toggleTask(todo.id)}
@@ -75,21 +79,21 @@ class TodoApp extends React.Component {
                     />
                     )
                     }
-            </ul>
+            </ScrollView>
             {/* <h3 id = "tasks">First Task , {new Date().toLocaleTimeString()}</h3> */}
-            <span>Task to be done : </span>
-            <input type = "text"  id = "inputTask" />
-            <span> Due Date : </span>
-            <input type = "date"  id = "dueDate" />
-            <button onClick = {() => this.addTodo(document.getElementById('inputTask').value 
-            + "  |--|  " + document.getElementById('dueDate').value)}>Add Task</button>
-        </div>
+            <Text>Task to be done : </Text>
+            <TextInput id = "inputTask" onChangeText = { (inputTask) => this.setState({inputTask}) }/>
+            <Text> Due Date : </Text>
+            <TextInput type = "date"  id = "dueDate"  onChangeText = { (dueDate) => this.setState({dueDate}) }/>
+            <Button onPress = {() => this.addTodo(this.state.inputTask 
+            + "  |--|  " + this.state.dueDate)} title = "Add Task" />
+        </View>
         );
     }
 }
 
 
-ReactDOM.render(
-    <TodoApp />,
-    document.getElementById('todo')
-);
+// ReactDOM.render(
+//     <TodoApp />,
+//     document.getElementById('todo')
+// );
