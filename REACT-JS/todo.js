@@ -1,12 +1,13 @@
 import {View, Text, Button, ScrollView, TextInput} from 'react-native';
+import { CheckBox } from 'react-native-elements';
 import React from 'react';
 
 
 let id = 0;
 
 const Todo = props => (
-    <View>
-        {/* <input type = "checkbox" onChange = {props.onChecked} checked = {props.todo.checked}/> */}
+    <View style = {{flexDirection: 'row'}}>
+        <CheckBox onPress = {props.onChecked} checked = {props.todo.checked}/>
         <Text>{props.todo.text}</Text>
         <Button onPress = {props.onDelete} title = "delete" />
     </View>
@@ -60,6 +61,8 @@ export default class TodoApp extends React.Component {
         this.setState({
             todos : [...this.state.todos, 
                 {id: id++, text: text1, checked: false}],
+            inputTask: '',
+            dueDate: '',
         })
     }
 
@@ -68,9 +71,9 @@ export default class TodoApp extends React.Component {
         <View>
             <Text>Todo Tasks : </Text>
             <Text>Total Tasks : {this.state.todos.length}</Text>
-            {/* <Text>Tasks unChecked count: {
+            <Text>Tasks unChecked count: {
                 this.state.todos.filter(todo => !todo.checked).length
-                }</Text> */}
+                }</Text>
             <ScrollView>
                 {this.state.todos.map(
                     todo => <Todo
@@ -82,9 +85,9 @@ export default class TodoApp extends React.Component {
             </ScrollView>
             {/* <h3 id = "tasks">First Task , {new Date().toLocaleTimeString()}</h3> */}
             <Text>Task to be done : </Text>
-            <TextInput id = "inputTask" onChangeText = { (inputTask) => this.setState({inputTask}) }/>
+            <TextInput id = "inputTask" onChangeText = { (inputTask) => this.setState({inputTask}) } value = {this.state.inputTask}/>
             <Text> Due Date : </Text>
-            <TextInput type = "date"  id = "dueDate"  onChangeText = { (dueDate) => this.setState({dueDate}) }/>
+            <TextInput type = "date"  id = "dueDate"  onChangeText = { (dueDate) => this.setState({dueDate}) } value = {this.state.dueDate}/>
             <Button onPress = {() => this.addTodo(this.state.inputTask 
             + "  |--|  " + this.state.dueDate)} title = "Add Task" />
         </View>
